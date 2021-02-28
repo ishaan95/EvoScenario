@@ -1,7 +1,5 @@
 # EvoScenario
-Simulation scenarios for testing Autonomous Vehicles (AVs) with evolutionary algorithms.  
-
-***
+Simulation scenarios for testing Autonomous Vehicles (AVs) with evolutionary algorithms.
 
 ***
 
