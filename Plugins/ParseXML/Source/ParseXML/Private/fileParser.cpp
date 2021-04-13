@@ -5,12 +5,13 @@
 #include "laneMarking.h"
 #include "WayPoint.h"
 #include "Engine.h"
+#include "Engine/TextRenderActor.h"
 #include <cstdlib>
 #include <sstream>
 #include <memory>
 
 
-UfileParser::UfileParser(const TCHAR* selectedFile, FVector& multipleSpawningOffsetVector) : selectedXMLFile(selectedFile), multipleSpawningOffset(multipleSpawningOffsetVector)
+UfileParser::UfileParser(const TCHAR* selectedFile, FVector& multipleSpawningOffsetVector, int generation) : selectedXMLFile(selectedFile), multipleSpawningOffset(multipleSpawningOffsetVector), generationNumber(generation)
 {
 	FVector Location = FVector(0.0f, 0.0f, 2000.0f);
 	FRotator Rotation = FRotator(0.0f, 0.0f, 0.0f);
@@ -413,6 +414,17 @@ SimpleNodePtr UfileParser::InitializeNode() {
 	}
 	else {
 
+	}
+	if (onceCounter == false) {
+		FActorSpawnParameters SpawnInfo;
+		FRotator TextRotation(0.0f, 0.0f, 0.0f);
+		origin.Z += .0f;
+		ATextRenderActor* Text = World->SpawnActor<ATextRenderActor>(origin, TextRotation, SpawnInfo);
+		UTextRenderComponent* TextComponent = Text->GetTextRender();
+		TextComponent->Text = FText::FromString(FString("Generation") + (FString::FromInt(generationNumber)));
+		TextComponent->WorldSize = 900.0f;
+		TextComponent->TextRenderColor.G = 0.0f;
+		onceCounter = true;
 	}
 	return Node;
 }

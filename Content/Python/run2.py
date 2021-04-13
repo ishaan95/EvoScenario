@@ -1,4 +1,6 @@
+#Doing Evolution selection from within the right python environment.
 import subprocess
+import sys
 
 """
 Add path to environment for intgen and python packages
@@ -8,6 +10,6 @@ path_to_python_scripts = "C:\\Users\\iparanja\\Documents\\Unreal Projects\\NewS2
 
 output, input = subprocess.Popen([path_to_env_activate,
                                           "&", "cd", path_to_python_scripts,
-                                          "&", "py", "selection.py",
+                                          "&", "py", "-c", "import evolution; evolution.selection()",
                                           ], stdout=subprocess.PIPE).communicate()
 print(output)

@@ -15,7 +15,7 @@
 class UfileParser : public IFastXmlCallback
 {
 public:
-	UfileParser(const TCHAR*, FVector&);
+	UfileParser(const TCHAR*, FVector&, int);
 	UfileParser(const TCHAR*);
 	virtual ~UfileParser();
 
@@ -155,4 +155,7 @@ private:
 	FString walkingAreaID = "";
 	FString walkingAreaKeyID = "";
 	FString tempTrafficLightID = "";
+
+	bool onceCounter = false;
+	int32 generationNumber = 0;
 };

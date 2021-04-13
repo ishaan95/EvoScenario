@@ -8,6 +8,6 @@ path_to_python_scripts = "C:\\Users\\iparanja\\Documents\\Unreal Projects\\NewS2
 
 output, input = subprocess.Popen([path_to_env_activate,
                                           "&", "cd", path_to_python_scripts,
-                                          "&", "py", "evolution.py",
+                                          "&", "py", "-c", "import evolution; evolution.createAndWriteInitialPopulation()",
                                           ], stdout=subprocess.PIPE).communicate()
 print(output)
