@@ -1,16 +1,6 @@
 # EvoScenario
-Simulation scenarios for testing Autonomous Vehicles (AVs) with evolutionary algorithms.
+Procedurally generating scenarios on [Cruzway](https://github.com/AugmentedDesignLab/CruzWay) using evolutionary algorithms. 
 
-***
+## Dependencies
 
-## Curation of resources
-Useful links to papers, repositories, books, courses, videos, blogs, etc. referred to in this work is listed on [this wiki page](https://github.com/ishaan95/EvoScenario/wiki/Resources)
-
-***
-
-
-
-
-
-
-
+This project uses [Unreal Engine python programming utilities](https://docs.unrealengine.com/en-US/ProductionPipelines/ScriptingAndAutomation/Python/index.html) and [DEAP](https://deap.readthedocs.io/en/master/) evolutionary algorithms library. Further, there is an assumption that [IntGen](https://github.com/AugmentedDesignLab/intgen) and our version of [Netgenerate](https://github.com/AugmentedDesignLab/sumo-mirror/tree/sumoIntgen) is able to be run on the command line. 
