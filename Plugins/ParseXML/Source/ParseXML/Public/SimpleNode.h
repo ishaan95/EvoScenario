@@ -1,6 +1,5 @@
 #pragma once
 #include "Engine.h"
-#include "Platform.h"
 #include <vector>
 
 class PARSEXML_API SimpleNode

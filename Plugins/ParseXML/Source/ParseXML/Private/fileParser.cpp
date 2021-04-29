@@ -13,12 +13,7 @@
 
 UfileParser::UfileParser(const TCHAR* selectedFile, FVector& multipleSpawningOffsetVector, int generation) : selectedXMLFile(selectedFile), multipleSpawningOffset(multipleSpawningOffsetVector), generationNumber(generation)
 {
-	FVector Location = FVector(0.0f, 0.0f, 2000.0f);
-	FRotator Rotation = FRotator(0.0f, 0.0f, 0.0f);
-	FActorSpawnParameters SpawnParameters;
 	//getAllActorsOfClass();
-	World->SpawnActor<AAtmosphericFog>(Location, Rotation, SpawnParameters);
-	Location.Z = 100000.0f;
 	/*
 	UStaticMeshComponent* planeMeshComponent;
 	planeMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("planeActor"));
@@ -27,11 +22,6 @@ UfileParser::UfileParser(const TCHAR* selectedFile, FVector& multipleSpawningOff
 	planeMeshComponent->SetStaticMesh(planeMesh);
 	*/
 	//Location.Z = 100000.0f;
-	ASkyLight* Skylight = World->SpawnActor<ASkyLight>(Location, Rotation, SpawnParameters);
-	if (Skylight != nullptr) {
-		Skylight->GetLightComponent()->SetIntensity(5.0f);
-		GEditor->BuildLighting(LightOptions);
-	}
 }
 
 UfileParser::UfileParser(const TCHAR* selectedFile) : selectedXMLFile(selectedFile), multipleSpawningOffset(0.0f, 0.0f, 0.0f)

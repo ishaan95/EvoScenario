@@ -3,18 +3,13 @@
 
 #include "TaskStopAtStopSign.h"
 #include "VehicleController.h"
-
-
-
 #define BRAKE_START_DISTANCE 800
 #define SLOWDOWN_DISTANCE 1200
 #define BRAKE_INC_RATE 0.01
 
-
-
-EBTNodeResult::Type UTaskStopAtStopSign::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
-{
+EBTNodeResult::Type UTaskStopAtStopSign::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory){
 	//PrintLog("Task Stop at stop sign");
+	
 	UBehaviorTreeComponent& MyComp = OwnerComp;
 	AVehicleController* MyController = &MyComp ? Cast<AVehicleController>(MyComp.GetOwner()) : NULL;
 

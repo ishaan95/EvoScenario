@@ -13,8 +13,7 @@ public class SumoToUnreal : ModuleRules
             "Core", "CoreUObject", "Engine", "InputCore", "PhysXVehicles", "AIModule", "GameplayTasks",
             // ADL plugins
             "ParseXML",
-            "SpawnPedestrian",
-            "BT_Plugin"
+            "SpawnPedestrian"
         });
 
         PrivateDependencyModuleNames.AddRange(new string[] { });

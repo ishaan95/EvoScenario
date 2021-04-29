@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine.h"
-#include <ParseXML/Public/WayPoint.h>
+#include "WayPoint.h"
 #include "VehicleController.h"
 #include "WheeledVehicle.h"
 #include "WheeledVehicleObject.generated.h"
@@ -13,7 +13,7 @@
  *
  */
 UCLASS()
-class BT_PLUGIN_API AWheeledVehicleObject : public AWheeledVehicle
+class AWheeledVehicleObject : public AWheeledVehicle
 {
 	GENERATED_BODY()
 
@@ -26,11 +26,7 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-
 	virtual void Tick(float DeltaTime) override;
-
-
-
 	AVehicleController* VehicleController;
 	FVector VehicleVelocity;
 

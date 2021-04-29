@@ -7,11 +7,8 @@
 #include "Engine.h"
 #include "TaskStopAtStopSign.generated.h"
 
-/**
- * 
- */
 UCLASS()
-class BT_PLUGIN_API UTaskStopAtStopSign : public UBTTask_BlackboardBase
+class UTaskStopAtStopSign : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
 	

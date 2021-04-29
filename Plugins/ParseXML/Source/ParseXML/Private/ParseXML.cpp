@@ -12,11 +12,19 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include "LevelEditor.h"
+#include "ScenarioGenerator.h"
 
 using json = nlohmann::json;
-static const FName ParseXMLTabName("Sumo2Unreal");
+static const FName ParseXMLTabName("Make Roads");
 
 #define LOCTEXT_NAMESPACE "FParseXMLModule"
+
+FParseXMLModule::FParseXMLModule() {
+	
+}
+FParseXMLModule::~FParseXMLModule() {
+
+}
 
 void FParseXMLModule::StartupModule()
 {
@@ -71,6 +79,11 @@ void FParseXMLModule::PluginButtonClicked()
 	const FString& defaultFileName = "SumoToUnreal.cpp";
 	const FString& defaultFileType = "*.jpg";
 	FVector multipleSpawningOffset(0.0f, 0.0f, 0.0f);
+	UWorld* World = GEditor->GetEditorWorldContext().World();
+	FVector Location = FVector(0.0f, 0.0f, 2000.0f);
+	FRotator Rotation = FRotator(0.0f, 0.0f, 0.0f);
+	FActorSpawnParameters SpawnParameters;
+	FLightingBuildOptions LightOptions;
 
 	TArray <FString> originalOutFileNames = {};
 	TArray <FString>& OutFilenames = originalOutFileNames;
@@ -83,7 +96,13 @@ void FParseXMLModule::PluginButtonClicked()
 	if (MainFrameParentWindow.IsValid() && MainFrameParentWindow->GetNativeWindow().IsValid())
 	{
 		ParentWindowWindowHandle = MainFrameParentWindow->GetNativeWindow()->GetOSWindowHandle();
-		
+		World->SpawnActor<AAtmosphericFog>(Location, Rotation, SpawnParameters);
+		Location.Z = 100000.0f;
+		ASkyLight* Skylight = World->SpawnActor<ASkyLight>(Location, Rotation, SpawnParameters);
+		if (Skylight != nullptr) {
+			Skylight->GetLightComponent()->SetIntensity(5.0f);
+			GEditor->BuildLighting(LightOptions);
+		}
 		json output_json;
 		std::ofstream output(jsonFilePath + "intersectionScores.json");
 
@@ -93,6 +112,7 @@ void FParseXMLModule::PluginButtonClicked()
 		GEngine->Exec(nullptr, TEXT("py \"run.py\""));
 		/*
 		* Accept and run for 3 generations
+		* NOTE ------- Nested for loops. Try to avoid -------------
 		*/
 		for (int k = 0; k < 3; k++) {
 			multipleSpawningOffset.X += float(k) * 60000.0f;
@@ -145,6 +165,15 @@ void FParseXMLModule::PluginButtonClicked()
 			output << output_json << std::endl;
 			GEngine->Exec(nullptr, TEXT("py \"run2.py\""));
 		}
+		/*Once the roads are placed, pick a random road and spawn a car
+		*/
+		
+		UGameplayStatics::GetAllActorsOfClass(World, AWayPoint::StaticClass(), FoundWaypoints);
+		FVehicleSpecification vSpec;
+		vSpec.BT_Path = "BehaviorTree'/BT_Plugin/BT/BehaviorTree.BehaviorTree'";
+		vSpec.WayPoint = (AWayPoint*)FoundWaypoints[30];
+		AScenarioGenerator* scenario = World->SpawnActor<AScenarioGenerator>(Location, Rotation, SpawnParameters);
+		//scenario->SpawnVehicle(vSpec);
 	}
 }
 

@@ -12,6 +12,10 @@ class FMenuBuilder;
 class FParseXMLModule : public IModuleInterface
 {
 public:
+	FParseXMLModule();
+	~FParseXMLModule();
+	TArray<AActor*> FoundWaypoints;
+	
 
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;

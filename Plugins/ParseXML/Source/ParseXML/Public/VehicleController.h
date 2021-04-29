@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "AIController.h"
 #include "Engine.h"
-#include <ParseXML/Public/WayPoint.h>
+#include "WayPoint.h"
 #include <Runtime\AIModule\Classes\BehaviorTree\BehaviorTreeComponent.h>
 #include <Runtime\AIModule\Classes\BehaviorTree\BlackboardComponent.h>
 #include "VehicleController.generated.h"
@@ -14,7 +14,7 @@
  *
  */
 UCLASS()
-class BT_PLUGIN_API AVehicleController : public AAIController
+class AVehicleController : public AAIController
 {
 	GENERATED_BODY()
 

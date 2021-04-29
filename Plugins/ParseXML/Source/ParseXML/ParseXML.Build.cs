@@ -20,7 +20,7 @@ public class ParseXML : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core", "CoreUObject", "Engine", "InputCore", "XmlParser", "ProceduralMeshComponent"
+				"Core", "CoreUObject", "Engine", "InputCore", "XmlParser", "ProceduralMeshComponent", "PhysXVehicles", "AIModule", "GameplayTasks"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

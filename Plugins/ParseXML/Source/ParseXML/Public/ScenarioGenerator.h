@@ -7,7 +7,6 @@
 #include "WheeledVehicleObject.h"
 #include "WayPoint.h"
 #include "RoadMesh.h"
-#include "PedestrianCharacter.h"
 #include "Engine.h"
 #include "ScenarioGenerator.generated.h"
 
@@ -17,7 +16,7 @@ struct FVehicleSpecification
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<class AWheeledVehicleObject> VehicleAsset;
+	AWheeledVehicleObject* vehicle;
 
 	UPROPERTY(EditAnywhere)
 	AWayPoint* WayPoint;
@@ -26,6 +25,7 @@ struct FVehicleSpecification
 	FString BT_Path;
 };
 
+/*
 USTRUCT()
 struct FPedestrianSpecification
 {
@@ -37,9 +37,10 @@ struct FPedestrianSpecification
 	UPROPERTY(EditAnywhere)
 	ARoadMesh* RoadMesh;
 };
+*/
 
 UCLASS()
-class SUMOTOUNREAL_API AScenarioGenerator : public AActor
+class AScenarioGenerator : public AActor
 {
 	GENERATED_BODY()
 
@@ -55,22 +56,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-	TArray<FVehicleSpecification> VehicleList;
+	UClass* vehicleBPAsset;
 
 	UPROPERTY(EditAnywhere)
-	TArray<FPedestrianSpecification> PedestrianList;
+	AWheeledVehicleObject* vehicle;
 	
-	TArray<AWheeledVehicleObject*> SpawnedVehicleList;
-	
-	TArray<APedestrianCharacter*> SpawnedPedestrianList;
 
 	AWheeledVehicleObject* LoadVehicleFromPluginAsset(
 		FString Path = "BehaviorTree'/BT_Plugin/BT/BehaviorTree.BehaviorTree'");
 
 	AWheeledVehicleObject* SpawnVehicle(FVehicleSpecification VehicleSpec);
-
-	APedestrianCharacter* SpawnPedestrian(FPedestrianSpecification PedestrianSpec);
 	
 	void PrintLog(FString Text)
 	{

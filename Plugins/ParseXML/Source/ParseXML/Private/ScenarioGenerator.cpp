@@ -11,25 +11,15 @@ AScenarioGenerator::AScenarioGenerator()
 
 	PrintLog("Inside the SceneGen constructor");
 	//PrintLog(VehicleRef);
-	//AWheeledVehicleObject* Vehicle = LoadVehicleFromPluginAsset(VehicleList[0].VehicleAsset);
+	//vehicle = LoadVehicleFromPluginAsset("Blueprint'/BT_Plugin/VehicleModel/test1.test1'");
+	static ConstructorHelpers::FObjectFinder<UClass> vehicleAsset(TEXT("Class'/BT_Plugin/VehicleModel/test1.test1_C'"));
+	vehicleBPAsset = vehicleAsset.Object;
 }
 
 // Called when the game starts or when spawned
 void AScenarioGenerator::BeginPlay()
 {
 	Super::BeginPlay();
-	for (FVehicleSpecification Vehicle : VehicleList)
-	{
-		AWheeledVehicleObject* Temp = SpawnVehicle(Vehicle);
-		SpawnedVehicleList.Add(Temp);
-	}
-
-	// Adding pedestrians
-	for (FPedestrianSpecification PedestrianSpec : PedestrianList)
-	{
-		APedestrianCharacter* Temp = SpawnPedestrian(PedestrianSpec);
-		SpawnedPedestrianList.Add(Temp);
-	}
 }
 
 // Called every frame
@@ -54,17 +44,22 @@ AWheeledVehicleObject* AScenarioGenerator::SpawnVehicle(FVehicleSpecification Ve
 	FVector LocationVector = VehicleSpec.WayPoint->GetActorLocation();
 	PrintLog(LocationVector.ToString());
 	FVector SpawnPoint = FVector(LocationVector.X, LocationVector.Y, 10.0f);
-	FActorSpawnParameters SpawnParam;
-	SpawnParam.Owner = this;
-	FRotator Rotator = FRotator(0, 0, 0);
-	AWheeledVehicleObject* Temp = World->SpawnActor<AWheeledVehicleObject>(
-		VehicleSpec.VehicleAsset, SpawnPoint, Rotator, SpawnParam);
-	Temp->InitializeWheeledVehicle(VehicleSpec.BT_Path, VehicleSpec.WayPoint);
-	Temp->InitializeBlackBoardValues();
+	//FActorSpawnParameters SpawnParam;
+	//SpawnParam.Owner = this;
+	//FRotator Rotator = FRotator(0, 0, 0);
 
-	return Temp;
+	FQuat vehicleRotation(0.0f, 0.0f, 0.0f, 0.0f);
+	FTransform SpawnTransform(vehicleRotation, SpawnPoint);
+	AWheeledVehicleObject* newVehicle = Cast<AWheeledVehicleObject>(UGameplayStatics::BeginDeferredActorSpawnFromClass(World, AWheeledVehicleObject::StaticClass(), SpawnTransform));
+
+	UGameplayStatics::FinishSpawningActor(newVehicle, SpawnTransform);
+	//AWheeledVehicleObject* Temp = World->SpawnActor<AWheeledVehicleObject>(vehicle, SpawnPoint, Rotator, SpawnParam);
+	//Temp->InitializeWheeledVehicle(VehicleSpec.BT_Path, VehicleSpec.WayPoint);
+	//Temp->InitializeBlackBoardValues();
+	return newVehicle;
 }
 
+/*
 APedestrianCharacter* AScenarioGenerator::SpawnPedestrian(FPedestrianSpecification PedestrianSpec)
 {
 	UWorld* World = GetWorld();
@@ -82,3 +77,4 @@ APedestrianCharacter* AScenarioGenerator::SpawnPedestrian(FPedestrianSpecificati
 
 	return Temp;
 }
+*/

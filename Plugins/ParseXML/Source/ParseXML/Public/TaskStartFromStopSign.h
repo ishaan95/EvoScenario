@@ -11,7 +11,7 @@
  * 
  */
 UCLASS()
-class BT_PLUGIN_API UTaskStartFromStopSign : public UBTTask_BlackboardBase
+class UTaskStartFromStopSign : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
 	
