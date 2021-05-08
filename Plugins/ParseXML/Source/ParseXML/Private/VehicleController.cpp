@@ -48,9 +48,11 @@ bool AVehicleController::InitializeBlackBoard(UBehaviorTree* BehaviorTree)
 		BlackboardComponent->SetValueAsFloat("ThrottleValue", 0.5);
 		//BlackboardComponent->SetValueAsFloat("ThreshWaypointDeviation", 10.0);
 		//BlackboardComponent->SetValueAsFloat("ThreshStopAtStopSignDistance", 800);
-		//PrintLog("Behavior tree and blackboard init");
+		PrintLog("Behavior tree and blackboard init");
 		return true;
 	}
+	PrintLog("Behavior tree and blackboard failed");
+
 	return false;
 }
 
@@ -73,6 +75,7 @@ bool AVehicleController::SetWayPoint(AWayPoint* WP)
 void AVehicleController::StartBehaviorTree(UBehaviorTree* BehaviorTree)
 {
 	BehaviorTreeComponent->StartTree(*BehaviorTree);
+	PrintLog("Started Tree");
 }
 
 
@@ -86,7 +89,7 @@ bool AVehicleController::InitializeVehicleController(FString BehaviorTreePath, A
 
 	if (BehaviorTree != NULL && IsSetWayPoint)
 	{
-		PrintLog("Initialize Blackboard nad starting BT");
+		PrintLog("Initialize Blackboard and starting BT");
 		InitializeBlackBoard(BehaviorTree);
 		StartBehaviorTree(BehaviorTree);
 		return true;

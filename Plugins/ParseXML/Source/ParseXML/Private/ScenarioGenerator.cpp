@@ -12,8 +12,9 @@ AScenarioGenerator::AScenarioGenerator()
 	PrintLog("Inside the SceneGen constructor");
 	//PrintLog(VehicleRef);
 	//vehicle = LoadVehicleFromPluginAsset("Blueprint'/BT_Plugin/VehicleModel/test1.test1'");
-	static ConstructorHelpers::FObjectFinder<UClass> vehicleAsset(TEXT("Class'/BT_Plugin/VehicleModel/test1.test1_C'"));
-	vehicleBPAsset = vehicleAsset.Object;
+	//static ConstructorHelpers::FObjectFinder<UClass> vehicleAsset(TEXT("Blueprint'/Game/MyWheeledVehicleObject.MyWheeledVehicleObject'"));
+	vehicleBPAsset = LoadObject<UClass>(nullptr, TEXT("Class'/Game/MyWheeledVehicleObject.MyWheeledVehicleObject_C'"));
+	//vehicleAsset.Object;
 }
 
 // Called when the game starts or when spawned
