@@ -27,7 +27,10 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	AVehicleController* VehicleController;
+
 	FVector VehicleVelocity;
 
 	UPROPERTY(EditAnywhere)

@@ -17,9 +17,9 @@ AWheeledVehicleObject::AWheeledVehicleObject()
 void AWheeledVehicleObject::BeginPlay()
 {
 	Super::BeginPlay();
-	//PrintLog("Inside vehicle object beginplay");
+	PrintLog("Inside vehicle object beginplay");
 	VehicleController = GetController<AVehicleController>();
-	//InitializeWheeledVehicle(BehaviorTreePath, WayPoint);
+	InitializeWheeledVehicle(BehaviorTreePath, WayPoint);
 	//InitializeBlackBoardValues();
 }
 
@@ -28,8 +28,8 @@ void AWheeledVehicleObject::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	//PrintLog("Inside vehicle object tick");
 
-	UpdateBlackBoard(DeltaTime);
-	UpdateControlValue();
+	//UpdateBlackBoard(DeltaTime);
+	//UpdateControlValue();
 }
 
 void AWheeledVehicleObject::UpdateControlValue()
@@ -56,18 +56,18 @@ bool AWheeledVehicleObject::SelfDestroy()
 bool AWheeledVehicleObject::InitializeWheeledVehicle(FString Path, AWayPoint* WP)
 {
 
-	//PrintLog("Initialize Wheeled Vehicle ");
+	PrintLog("Initialize Wheeled Vehicle ");
 	BehaviorTreePath = Path;
 	WayPoint = WP;
 	if (VehicleController != NULL)
 	{
-		//PrintLog("Vehicle Controller not NULL");
+		PrintLog("Vehicle Controller not NULL");
 		VehicleController->InitializeVehicleController(BehaviorTreePath, WayPoint);
 		return true;
 	}
 	else
 	{
-		//PrintLog("Vehicle Controller NULL");
+		PrintLog("Vehicle Controller NULL");
 		return false;
 	}
 }
