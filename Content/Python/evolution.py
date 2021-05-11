@@ -15,7 +15,7 @@ def generate_netgen_roads(population):
 
 def initial_population(number_individuals):
     #register has one argument as an alias and sucessive argument lists are assigned to the preceding argument
-    toolbox.register("random_turnlanes", random.randint, 1, 3)
+    toolbox.register("random_turnlanes", random.randint, 1, 2)
     toolbox.register("random_incoming", random.randint, 2, 6)
     toolbox.register("random_number_of_lanes", random.randrange, 2, 8, 2)
     toolbox.register("individual", tools.initCycle, creator.Individual,

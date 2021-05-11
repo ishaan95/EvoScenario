@@ -16,9 +16,6 @@ struct FVehicleSpecification
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere)
-	AWheeledVehicleObject* vehicle;
-
-	UPROPERTY(EditAnywhere)
 	AWayPoint* WayPoint;
 
 	UPROPERTY(EditAnywhere)
@@ -49,13 +46,15 @@ public:
 	AScenarioGenerator();
 
 protected:
+
+public:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	//TSubclassOf<class AWheeledVehicle> vehicleBPAsset;
 	UClass* vehicleBPAsset;
 
 	UPROPERTY(EditAnywhere)
@@ -65,7 +64,7 @@ public:
 	AWheeledVehicleObject* LoadVehicleFromPluginAsset(
 		FString Path = "BehaviorTree'/BT_Plugin/BT/BehaviorTree.BehaviorTree'");
 
-	AWheeledVehicleObject* SpawnVehicle(FVehicleSpecification VehicleSpec);
+	AWheeledVehicle* SpawnVehicle(FVehicleSpecification VehicleSpec);
 	
 	void PrintLog(FString Text)
 	{

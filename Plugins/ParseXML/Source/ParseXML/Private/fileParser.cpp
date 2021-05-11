@@ -40,12 +40,15 @@ UfileParser::UfileParser(const TCHAR* selectedFile) : selectedXMLFile(selectedFi
 	planeMeshComponent->SetStaticMesh(planeMesh);
 	*/
 	//Location.Z = 100000.0f;
+	/*
 	ASkyLight* Skylight = World->SpawnActor<ASkyLight>(Location, Rotation, SpawnParameters);
 	if (Skylight != nullptr) {
 		Skylight->GetLightComponent()->SetIntensity(5.0f);
 		GEditor->BuildLighting(LightOptions);
 	}
+	*/
 }
+
 
 UfileParser::~UfileParser()
 {

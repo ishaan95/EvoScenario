@@ -12,8 +12,10 @@ AScenarioGenerator::AScenarioGenerator()
 	PrintLog("Inside the SceneGen constructor");
 	//PrintLog(VehicleRef);
 	//vehicle = LoadVehicleFromPluginAsset("Blueprint'/BT_Plugin/VehicleModel/test1.test1'");
-	static ConstructorHelpers::FObjectFinder<UClass> vehicleAsset(TEXT("Class'/BT_Plugin/VehicleModel/test1.test1_C'"));
-	vehicleBPAsset = vehicleAsset.Object;
+	//static ConstructorHelpers::FObjectFinder<UBlueprint> vehicleAsset(TEXT("Cl'/BT_Plugin/VehicleModel/test1.test1_C'"));
+	//vehicleBPAsset = (UClass*)vehicleAsset.Object->GeneratedClass;
+
+	vehicleBPAsset = LoadObject<UClass>(nullptr, TEXT("Class'/Game/VehicleModel/car/car_dummy.car_dummy_C'"));
 }
 
 // Called when the game starts or when spawned
@@ -38,21 +40,17 @@ AWheeledVehicleObject* AScenarioGenerator::LoadVehicleFromPluginAsset(FString Pa
 	return nullptr;
 }
 
-AWheeledVehicleObject* AScenarioGenerator::SpawnVehicle(FVehicleSpecification VehicleSpec)
+
+AWheeledVehicle* AScenarioGenerator::SpawnVehicle(FVehicleSpecification VehicleSpec)
 {
 	UWorld* World = GetWorld();
 	FVector LocationVector = VehicleSpec.WayPoint->GetActorLocation();
 	PrintLog(LocationVector.ToString());
 	FVector SpawnPoint = FVector(LocationVector.X, LocationVector.Y, 10.0f);
-	//FActorSpawnParameters SpawnParam;
-	//SpawnParam.Owner = this;
-	//FRotator Rotator = FRotator(0, 0, 0);
-
-	FQuat vehicleRotation(0.0f, 0.0f, 0.0f, 0.0f);
-	FTransform SpawnTransform(vehicleRotation, SpawnPoint);
-	AWheeledVehicleObject* newVehicle = Cast<AWheeledVehicleObject>(UGameplayStatics::BeginDeferredActorSpawnFromClass(World, AWheeledVehicleObject::StaticClass(), SpawnTransform));
-
-	UGameplayStatics::FinishSpawningActor(newVehicle, SpawnTransform);
+	FActorSpawnParameters SpawnParam;
+	SpawnParam.Owner = this;
+	FRotator Rotator = VehicleSpec.WayPoint->directionOfSpline.Rotation();
+	AWheeledVehicle* newVehicle = World->SpawnActor<AWheeledVehicle>(vehicleBPAsset, SpawnPoint, Rotator);
 	//AWheeledVehicleObject* Temp = World->SpawnActor<AWheeledVehicleObject>(vehicle, SpawnPoint, Rotator, SpawnParam);
 	//Temp->InitializeWheeledVehicle(VehicleSpec.BT_Path, VehicleSpec.WayPoint);
 	//Temp->InitializeBlackBoardValues();
