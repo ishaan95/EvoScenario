@@ -94,7 +94,5 @@ bool AVehicleController::InitializeVehicleController(FString BehaviorTreePath, A
 		StartBehaviorTree(BehaviorTree);
 		return true;
 	}
-
 	return false;
-
 }

@@ -61,8 +61,7 @@ public:
 	AWheeledVehicleObject* vehicle;
 	
 
-	AWheeledVehicleObject* LoadVehicleFromPluginAsset(
-		FString Path = "BehaviorTree'/BT_Plugin/BT/BehaviorTree.BehaviorTree'");
+	AWheeledVehicleObject* LoadVehicleFromPluginAsset(FString Path = "BehaviorTree'/BT_Plugin/BT/BehaviorTree.BehaviorTree'");
 
 	AWheeledVehicle* SpawnVehicle(FVehicleSpecification VehicleSpec);
 	

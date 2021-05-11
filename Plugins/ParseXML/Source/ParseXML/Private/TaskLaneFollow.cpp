@@ -1,7 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
-
 #include "TaskLaneFollow.h"
 #include "VehicleController.h"
 #include "WheeledVehicleMovementComponent.h"
@@ -27,6 +25,8 @@ EBTNodeResult::Type UTaskLaneFollow::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 	MyController->BlackboardComponent->SetValueAsFloat("SteerValue", NewSteeringValue);
 	MyController->BlackboardComponent->SetValueAsFloat("ThrottleValue", NewThrottleValue);
 	//PrintLog("Forward speed  " + FString::SanitizeFloat(VehicleMovementComponent->GetForwardSpeed()));
+	
+	UE_LOG(LogEngine, Warning, TEXT("Behavior tree task running ========================"))
 	return EBTNodeResult::Succeeded;
 }
 
@@ -40,14 +40,14 @@ float UTaskLaneFollow::UpdatedSteeringValue(AVehicleController* VehicleControlle
 	FVector VehicleLocation = VehicleController->BlackboardComponent->GetValueAsVector("VehicleWorldLocation");
 	float FrameDelta = VehicleController->BlackboardComponent->GetValueAsFloat("TimeDelta");
 	float DistanceAlongWayPoint = WayPoint->GetDistanceAlongSpline(VehicleLocation);
-	//PrintLog("Distance along spline " + FString::SanitizeFloat(DistanceAlongWayPoint) + " TotalDistance " + FString::SanitizeFloat(WayPoint->TotalDistance));
+	PrintLog("Distance along spline " + FString::SanitizeFloat(DistanceAlongWayPoint) + " TotalDistance " + FString::SanitizeFloat(WayPoint->TotalDistance));
 
 	FVector VehicleVelocity = VehicleController->BlackboardComponent->GetValueAsVector("VehicleVelocity");
 	//FVector VehicleNextLocation = VehicleLocation + VehicleVelocity * LOOK_AHEAD;
 
 	if ((WayPoint->TotalDistance - DistanceAlongWayPoint) < SPLINE_CHANGE_THRESHOLD)
 	{
-		//PrintLog("Changing Spline");
+		PrintLog("Changing Spline");
 		ChangeWayPointUpdateBlackBoard(WayPoint, VehicleController);
 	}
 
@@ -94,31 +94,38 @@ void UTaskLaneFollow::ChangeWayPointUpdateBlackBoard(AWayPoint* WayPoint, AVehic
 
 float UTaskLaneFollow::UpdatedThrottleValue(AVehicleController* VehicleController)
 {
+	//PrintLog("Throttle Update");
 	float ThrottleValue = VehicleController->BlackboardComponent->GetValueAsFloat("ThrottleValue");
 	float SteerValue = VehicleController->BlackboardComponent->GetValueAsFloat("SteerValue");
-	int VelocityStatus = VehicleController->BlackboardComponent->GetValueAsInt("VelocityStatus");
+	float VelocityStatus = VehicleController->BlackboardComponent->GetValueAsFloat("VelocityStatus01");
 	float DesiredVelocity = VehicleController->BlackboardComponent->GetValueAsFloat("DesiredVelocity");
 	AWayPoint* WayPoint = VehicleController->WayPoint;
 	float AngleMagnitude = FMath::Abs(SteerValue);
 
 	FVector VehicleVelocity = VehicleController->BlackboardComponent->GetValueAsVector("VehicleVelocity");
 
-	if (((VehicleVelocity.Size() * 36 / 1000) > DesiredVelocity) || VelocityStatus == -1)
+	UE_LOG(LogEngine, Warning, TEXT("Inside behavior tree throttle value is %f"), ThrottleValue);
+	UE_LOG(LogEngine, Warning, TEXT("Velocity status is %f"), VelocityStatus);
+	UE_LOG(LogEngine, Warning, TEXT("VehicleVelocity is %f"), (VehicleVelocity.Size() * 36 / 1000));
+	if (((VehicleVelocity.Size() * 36 / 1000) > DesiredVelocity) || VelocityStatus == -1.0)
 	{
 		if (ThrottleValue > THROTTLE_DOWN_LIMIT)
 		{
 			ThrottleValue = ThrottleValue - THROTTLE_DEC_RATE;
+			//PrintLog("Throttle value" + FString::SanitizeFloat(ThrottleValue));
 		}
 
 	}
-	else if (VelocityStatus == 1)
+	else if (VelocityStatus == 1.0)
 	{
 		if (ThrottleValue < THROTTLE_UP_LIMIT)
 		{
 			ThrottleValue = ThrottleValue + THROTTLE_INC_RATE;
+			//PrintLog("Throttle value" + FString::SanitizeFloat(ThrottleValue));
 		}
 
 	}
+	UE_LOG(LogEngine, Warning, TEXT("After update throttle value is %f"), ThrottleValue);
 	return ThrottleValue;
 }
 

@@ -15,7 +15,7 @@ AScenarioGenerator::AScenarioGenerator()
 	//static ConstructorHelpers::FObjectFinder<UBlueprint> vehicleAsset(TEXT("Cl'/BT_Plugin/VehicleModel/test1.test1_C'"));
 	//vehicleBPAsset = (UClass*)vehicleAsset.Object->GeneratedClass;
 
-	vehicleBPAsset = LoadObject<UClass>(nullptr, TEXT("Class'/Game/VehicleModel/car/car_dummy.car_dummy_C'"));
+	vehicleBPAsset = LoadObject<UClass>(nullptr, TEXT("Class'/Game/BT/Vehicle.Vehicle_C'"));
 }
 
 // Called when the game starts or when spawned
@@ -52,7 +52,7 @@ AWheeledVehicle* AScenarioGenerator::SpawnVehicle(FVehicleSpecification VehicleS
 	FRotator Rotator = VehicleSpec.WayPoint->directionOfSpline.Rotation();
 	AWheeledVehicle* newVehicle = World->SpawnActor<AWheeledVehicle>(vehicleBPAsset, SpawnPoint, Rotator);
 	//AWheeledVehicleObject* Temp = World->SpawnActor<AWheeledVehicleObject>(vehicle, SpawnPoint, Rotator, SpawnParam);
-	//Temp->InitializeWheeledVehicle(VehicleSpec.BT_Path, VehicleSpec.WayPoint);
+	//newVehicle->InitializeWheeledVehicle(VehicleSpec.BT_Path, VehicleSpec.WayPoint);
 	//Temp->InitializeBlackBoardValues();
 	return newVehicle;
 }

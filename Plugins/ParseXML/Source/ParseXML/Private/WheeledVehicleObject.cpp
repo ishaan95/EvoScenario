@@ -20,7 +20,7 @@ void AWheeledVehicleObject::BeginPlay()
 	PrintLog("Inside vehicle object beginplay");
 	VehicleController = GetController<AVehicleController>();
 	InitializeWheeledVehicle(BehaviorTreePath, WayPoint);
-	//InitializeBlackBoardValues();
+	InitializeBlackBoardValues();
 }
 
 void AWheeledVehicleObject::Tick(float DeltaTime)
@@ -28,15 +28,16 @@ void AWheeledVehicleObject::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	//PrintLog("Inside vehicle object tick");
 
-	//UpdateBlackBoard(DeltaTime);
-	//UpdateControlValue();
+	UpdateBlackBoard(DeltaTime);
+	UpdateControlValue();
 }
 
 void AWheeledVehicleObject::UpdateControlValue()
 {
-	float Throttle = VehicleController->BlackboardComponent->GetValueAsFloat("ThrottleValue");
+ 	float Throttle = VehicleController->BlackboardComponent->GetValueAsFloat("ThrottleValue");
 	float Brake = VehicleController->BlackboardComponent->GetValueAsFloat("BrakeValue");
 	float Steer = VehicleController->BlackboardComponent->GetValueAsFloat("SteerValue");
+	UE_LOG(LogEngine, Warning, TEXT("Given throttle value is %f"), Throttle);
 	ApplyControlValue(Throttle, Steer, Brake);
 }
 
@@ -45,6 +46,7 @@ void AWheeledVehicleObject::UpdateBlackBoard(float Delta)
 	VehicleController->BlackboardComponent->SetValueAsVector("VehicleWorldLocation", this->GetActorLocation());
 	VehicleController->BlackboardComponent->SetValueAsFloat("TimeDelta", Delta);
 	VehicleController->BlackboardComponent->SetValueAsVector("VehicleVelocity", this->GetVelocity());
+	UE_LOG(LogEngine, Warning, TEXT("Vehicle velocity during blackboard update is %f"), VehicleController->BlackboardComponent->GetValueAsInt("VehicleVelocity"));
 }
 
 bool AWheeledVehicleObject::SelfDestroy()
@@ -81,7 +83,6 @@ void AWheeledVehicleObject::ApplyControlValue(float Throttle, float Steering, fl
 
 void AWheeledVehicleObject::InitializeBlackBoardValues()
 {
-
 	if (VehicleController != NULL)
 	{
 		//PrintLog("Inside Initialize Black Board ");
@@ -90,6 +91,7 @@ void AWheeledVehicleObject::InitializeBlackBoardValues()
 		VehicleController->BlackboardComponent->SetValueAsBool("IsStopSignAhead", this->WayPoint->isStopSignConnected);
 		VehicleController->BlackboardComponent->SetValueAsVector("VehicleWorldLocation", this->GetActorLocation());
 		VehicleController->BlackboardComponent->SetValueAsFloat("DesiredVelocity", this->WayPoint->SpeedLimit);
-		VehicleController->BlackboardComponent->SetValueAsInt("VelocityStatus", 1);
+		VehicleController->BlackboardComponent->SetValueAsFloat("VelocityStatus01", 1.0);
+		UE_LOG(LogEngine, Warning, TEXT("initializing velocityStatus as %f!===================="), VehicleController->BlackboardComponent->GetValueAsFloat("VelocityStatus01"))
 	}
 }
