@@ -18,7 +18,7 @@ EBTNodeResult::Type UTaskLaneFollow::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 {
 	UBehaviorTreeComponent& MyComp = OwnerComp;
 	AVehicleController* MyController = &MyComp ? Cast<AVehicleController>(MyComp.GetOwner()) : NULL;
-	UWheeledVehicleMovementComponent* VehicleMovementComponent = Cast<UWheeledVehicleMovementComponent>(MyController->BlackboardComponent->GetValueAsObject("WheeledVehicleMovementComponent"));
+	UWheeledVehicleMovementComponent* VehicleMovementComponent = Cast<UWheeledVehicleMovementComponent>(MyController->BlackboardComponent->GetValueAsObject("VehicleMovementComponent"));
 
 	float NewSteeringValue = UpdatedSteeringValue(MyController);
 	float NewThrottleValue = UpdatedThrottleValue(MyController);

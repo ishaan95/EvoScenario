@@ -43,6 +43,7 @@ AWheeledVehicleObject* AScenarioGenerator::LoadVehicleFromPluginAsset(FString Pa
 
 AWheeledVehicle* AScenarioGenerator::SpawnVehicle(FVehicleSpecification VehicleSpec)
 {
+	TArray<AActor*> childActors;
 	UWorld* World = GetWorld();
 	FVector LocationVector = VehicleSpec.WayPoint->GetActorLocation();
 	PrintLog(LocationVector.ToString());
@@ -50,9 +51,10 @@ AWheeledVehicle* AScenarioGenerator::SpawnVehicle(FVehicleSpecification VehicleS
 	FActorSpawnParameters SpawnParam;
 	SpawnParam.Owner = this;
 	FRotator Rotator = VehicleSpec.WayPoint->directionOfSpline.Rotation();
-	AWheeledVehicle* newVehicle = World->SpawnActor<AWheeledVehicle>(vehicleBPAsset, SpawnPoint, Rotator);
-	//AWheeledVehicleObject* Temp = World->SpawnActor<AWheeledVehicleObject>(vehicle, SpawnPoint, Rotator, SpawnParam);
-	//newVehicle->InitializeWheeledVehicle(VehicleSpec.BT_Path, VehicleSpec.WayPoint);
+	AWheeledVehicleObject* newVehicle = World->SpawnActor<AWheeledVehicleObject>(vehicleBPAsset, SpawnPoint, Rotator);
+	newVehicle->SetActorScale3D(FVector(0.8f, 0.8f, 0.8f));
+	newVehicle->AIControllerClass = AVehicleController::StaticClass();
+	newVehicle->InitializeWheeledVehicle(VehicleSpec.BT_Path, VehicleSpec.WayPoint);
 	//Temp->InitializeBlackBoardValues();
 	return newVehicle;
 }

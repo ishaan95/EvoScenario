@@ -28,6 +28,9 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
+	TArray<int32> FutureTimeArray;
+	TArray<FVector> PositionEstimation;
+
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	AVehicleController* VehicleController;
 
@@ -38,6 +41,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	FString BehaviorTreePath;
+
+	void EstimateDistancesForTTC();
 
 	bool SelfDestroy();
 

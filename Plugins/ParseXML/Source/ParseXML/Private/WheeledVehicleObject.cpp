@@ -86,12 +86,22 @@ void AWheeledVehicleObject::InitializeBlackBoardValues()
 	if (VehicleController != NULL)
 	{
 		//PrintLog("Inside Initialize Black Board ");
-		VehicleController->BlackboardComponent->SetValueAsObject("WheeledVehicleMovementComponent", this->GetVehicleMovement());
+		VehicleController->BlackboardComponent->SetValueAsObject("VehicleMovementComponent", this->GetVehicleMovement());
 		VehicleController->BlackboardComponent->SetValueAsObject("WayPoint", this->WayPoint);
 		VehicleController->BlackboardComponent->SetValueAsBool("IsStopSignAhead", this->WayPoint->isStopSignConnected);
 		VehicleController->BlackboardComponent->SetValueAsVector("VehicleWorldLocation", this->GetActorLocation());
 		VehicleController->BlackboardComponent->SetValueAsFloat("DesiredVelocity", this->WayPoint->SpeedLimit);
 		VehicleController->BlackboardComponent->SetValueAsFloat("VelocityStatus01", 1.0);
 		UE_LOG(LogEngine, Warning, TEXT("initializing velocityStatus as %f!===================="), VehicleController->BlackboardComponent->GetValueAsFloat("VelocityStatus01"))
+	}
+}
+
+void AWheeledVehicleObject::EstimateDistancesForTTC() {
+	FVector currentVelocity = VehicleController->BlackboardComponent->GetValueAsVector("VehicleVelocity");
+	float currentVelocityMagnitude = currentVelocity.Size();
+	float distanceAlreadyTravelled = VehicleController->WayPoint->GetDistanceAlongSpline(this->GetActorLocation());
+	for (int i = 0; i < 150; i++) {
+		FutureTimeArray.Push(int32(distanceAlreadyTravelled - (i * 0.3 * currentVelocityMagnitude)));
+		UE_LOG(LogEngine, Warning, TEXT("The distance covered by current frame is "), int32(distanceAlreadyTravelled - (i * 0.3 * currentVelocityMagnitude)));
 	}
 }
